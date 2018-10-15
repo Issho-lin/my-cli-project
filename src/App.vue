@@ -22,14 +22,17 @@
                         <a>退出</a>
                         <strong>|</strong>
                     </span>
-                    <a href="" class="">
+                    <router-link to="/cart">
                         <i class="iconfont icon-cart"></i>购物车(
                         <span id="shoppingCartCount">
-                            <span>4</span>
-                        </span>)</a>
+                            <span>{{ $store.getters.goodsCount }}</span>
+                            <!-- <span>{{ $store.state.totalCount }}</span> -->
+                        </span>)
+                    </router-link>
                 </div>
             </div>
         </div>
+        <!-- <button @click="addCount">点击</button> -->
 
         <!-- 2.0 导航条 -->
         <div class="head-nav">
@@ -40,7 +43,6 @@
                             <router-link to="/index">
                                 <span class="out" style="top: 0px;">首页</span>
                             </router-link>
-                            <!-- </a> -->
                         </li>
                         <li class="news">
                             <router-link to="/news">
@@ -63,7 +65,7 @@
                             </router-link>
                         </li>
                         <li class="goods">
-                            <router-link to="/goods">
+                            <router-link to="/goods" class="router-link-exact-active">
                                 <span class="out" style="top: 0px;">购物商城</span>
                             </router-link>
                         </li>
@@ -80,46 +82,52 @@
             </div>
         </div>
     </div>
+
     <router-view></router-view>
+
     <div class="footer">
-      <div class="section">
-          <div class="foot-nav">
-              <a href="">关于我们</a>
-              <strong>|</strong>
-              <a href="">联系我们</a>
-              <strong>|</strong>
-              <a href="">联系客服</a>
-              <strong>|</strong>
-              <a href="">合作招商</a>
-              <strong>|</strong>
-              <a href="">商家帮助</a>
-              <strong>|</strong>
-              <a href="">营销中心</a>
-              <strong>|</strong>
-              <a href="">隐私政策</a>
-          </div>
-          <div class="foot-box">
-              <div class="copyright">
-                  <p>版权所有 黑马买买买 </p>
-                  <p>公司地址： 联系电话：</p>
-                  <p class="gray">Copyright © 2009-2018 itcast Corporation,All Rights Reserved.</p>
-              </div>
-              <div class="service">
-                  <p>周一至周日 9:00-24:00</p>
-                  <a href="#">
-                      <i class="iconfont icon-phone"></i>在线客服</a>
-              </div>
-          </div>
-      </div>
+        <div class="section">
+            <div class="foot-nav">
+                <a href="">关于我们</a>
+                <strong>|</strong>
+                <a href="">联系我们</a>
+                <strong>|</strong>
+                <a href="">联系客服</a>
+                <strong>|</strong>
+                <a href="">合作招商</a>
+                <strong>|</strong>
+                <a href="">商家帮助</a>
+                <strong>|</strong>
+                <a href="">营销中心</a>
+                <strong>|</strong>
+                <a href="">隐私政策</a>
+            </div>
+            <div class="foot-box">
+                <div class="copyright">
+                    <p>版权所有 黑马买买买 </p>
+                    <p>公司地址： 联系电话：</p>
+                    <p class="gray">Copyright © 2009-2018 itcast Corporation,All Rights Reserved.</p>
+                </div>
+                <div class="service">
+                    <p>周一至周日 9:00-24:00</p>
+                    <a href="#">
+                        <i class="iconfont icon-phone"></i>在线客服</a>
+                </div>
+            </div>
+        </div>
     </div>
+    <BackTop :height="100" :bottom="50">
+        <div class="top"><i class="ivu-icon ivu-icon-ios-arrow-up"></i></div>
+    </BackTop>
   </div>
 </template>
 
 <script>
 import $ from 'jquery';
 export default {
-  name: "shop",
-  components: {},
+  name: 'app',
+  components: {
+  },
   mounted() {
     $("#menu2 li a").wrapInner( '<span class="out"></span>' );
 	$("#menu2 li a").each(function() {
@@ -127,20 +135,31 @@ export default {
 	});
 
 	$("#menu2 li a").hover(function() {
-		$(".out",	this).stop().animate({'top':	'48px'},	300); // move down - hide
-		$(".over",	this).stop().animate({'top':	'0px'},		300); // move down - show
-
+		$(".out",	this).stop().animate({'top': '48px'},300); // move down - hide
+		$(".over",	this).stop().animate({'top': '0px'},300); // move down - show
 	}, function() {
-		$(".out",	this).stop().animate({'top':	'0px'},		300); // move up - show
-		$(".over",	this).stop().animate({'top':	'-48px'},	300); // move up - hide
+		$(".out",	this).stop().animate({'top': '0px'},300); // move up - show
+		$(".over",	this).stop().animate({'top': '-48px'},300); // move up - hide
 	});
   },
-};
+//   methods: {
+//       addCount() {
+//           this.$store.commit('increment');
+//       }
+//   }
+}
 </script>
 
 <style>
-@import url('./assets/statics/site/css/style.css');
+@import url('assets/statics/site/css/style.css');
 .menuhd ul li a span.over{
     background-color: yellowgreen;
+}
+.top{
+    /* padding: 10px; */
+    background: rgba(0, 153, 229, .7);
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
 }
 </style>

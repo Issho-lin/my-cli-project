@@ -18,8 +18,8 @@
                                         <i class="iconfont icon-arrow-right"></i>
                                         <span>{{ item.title }}</span>
                                         <p>
-                                            <span v-for="val in item.subcates" :key="val.id">
-                                                {{ val.title }}&nbsp;
+                                            <span v-for="item1 in item.subcates" :key="item1.id">
+                                                {{ item1.title }}&nbsp;
                                             </span>
                                         </p>
                                     </h3>
@@ -29,9 +29,7 @@
                                                 <a href="/goods/40.html">{{ item.title }}</a>
                                             </dt>
                                             <dd>
-                                                <a href="/goods/43.html" v-for="val in item.subcates" :key="val.id">
-                                                    {{ val.title }}
-                                                </a>
+                                                <a href="/goods/43.html" v-for="item1 in item.subcates" :key="item1.id">{{ item1.title }}</a>
                                             </dd>
                                         </dl>
                                     </div>
@@ -40,7 +38,7 @@
                         </div>
                     </div>
                     <!--幻灯片-->
-                    <div class="left-705">
+                    <div class="left-705 carousel">
                         <el-carousel height="341px">
                             <el-carousel-item v-for="item in sliderlist" :key="item.id">
                                 <img :src="item.img_url" alt="">
@@ -65,24 +63,25 @@
                 </div>
             </div>
         </div>
-        <div class="section" v-for="item in levelcate" :key="item.level1cateid">
+        <div class="section" v-for="item in productlist" :key="item.level1cateid">
             <div class="main-tit">
                 <h2>{{ item.catetitle }}</h2>
                 <p>
-                    <a href="/goods/43.html" v-for="item1 in item.level2catelist" :key="item1.subcateid">{{ item1.subcatetitle }}</a>
-                    <!-- <a href="/goods/43.html">手机通讯</a> -->
-                    <!-- <a href="/goods/43.html">摄影摄像</a> -->
+                    <a href="/goods/43.html" v-for="item1 in item.level2catelist" :key="item1.subcateid">
+                    {{ item1.subcatetitle }}
+                    </a>
+                    
                     <a href="/goods/40.html">更多
-                                <i>+</i>
-                            </a>
+                        <i>+</i>
+                    </a>
                 </p>
             </div>
             <div class="wrapper clearfix">
                 <div class="wrap-box">
                     <ul class="img-list">
                         <li v-for="item2 in item.datas" :key="item2.artID">
-                            <!-- <a :href="`#/site/goodsinfo/${item2.artID}`" class=""> -->
                             <router-link :to="`/detail/${item2.artID}`">
+                            <!-- <a :href="`#/site/goodsinfo/${item2.artID}`" class=""> -->
                                 <div class="img-box">
                                     <img v-lazy="item2.img_url">
                                 </div>
@@ -107,37 +106,37 @@
     </div>
 </template>
 <script>
+
 export default {
-  name: "index",
-  data() {
-    return {
-      catelist: [],
-      sliderlist: [],
-      toplist: [],
-      levelcate: []
-    };
-  },
-  created() {
-    this.$axios
-      .get("/site/goods/gettopdata/goods")
-      .then(res => {
-        // console.log(res);
-        this.catelist = res.data.message.catelist;
-        this.sliderlist = res.data.message.sliderlist;
-        this.toplist = res.data.message.toplist;
-      });
-    this.$axios
-      .get("/site/goods/getgoodsgroup")
-      .then(res => {
-        // console.log(res);
-        this.levelcate = res.data.message;
-      });
-  }
-};
+    name: 'index',
+    data(){
+        return {
+            catelist: [],
+            sliderlist: [],
+            toplist: [],
+            productlist: []
+        }
+    },
+
+    created() {
+        this.$axios.get('/site/goods/gettopdata/goods').then(res=>{
+            // console.log(res);
+            this.catelist = res.data.message.catelist;
+            this.sliderlist = res.data.message.sliderlist;
+            this.toplist = res.data.message.toplist;
+        });
+        this.$axios.get('/site/goods/getgoodsgroup').then(res=>{
+            // console.log(res);
+            this.productlist = res.data.message;
+        });
+    }
+}
 </script>
 <style>
-img {
-  width: 100%;
-  height: 100%;
-}
+    .carousel img{
+        width: 100%;
+        height: 100%;
+    }
 </style>
+
+
