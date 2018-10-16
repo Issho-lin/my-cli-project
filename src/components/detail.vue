@@ -55,7 +55,7 @@
                                         <dd>
                                             <div id="buyButton" class="btn-buy">
                                                 <button onclick="cartAdd(this,'/',1,'/shopping.html');" class="buy">立即购买</button>
-                                                <button @click="addCart" class="add">加入购物车</button>
+                                                <button @click="addCart" class="add" ref="add">加入购物车</button>
                                             </div>
                                         </dd>
                                     </dl>
@@ -144,9 +144,11 @@
                 </div>
             </div>
         </div>
+        <img :src="imglist.length==0?'':imglist[0].thumb_path" class="fly-img" ref="flyImg" style="display:none">
     </div>
 </template>
 <script>
+import $ from 'jquery';
     export default {
         name: 'detail',
         data() {
@@ -164,8 +166,8 @@
                 buyNum: 1,
                 count: 0,
                 isSelected: true,
-                goodsCount: 0,
-                goodsAtCart: {},
+                // goodsCount: 0,
+                // goodsAtCart: {},
                 images: {
                     normal_size: [],
                 },
@@ -249,16 +251,23 @@
                 });
             },
             addCart() {
-                this.$store.commit('addGoods',{
-                    id: this.id,
-                    addNum: this.buyNum
+                $(this.$refs.flyImg).stop().css($(this.$refs.add).offset()).show().addClass('ani').animate($(this.$parent.$refs.cart).offset(),1000,()=>{
+                    console.log(this);
+                    $(this.$refs.flyImg).removeClass('ani').hide();
+                    this.$store.commit('addGoods',{
+                        id: this.id,
+                        addNum: this.buyNum
+                    });
                 });
+
+                
                 // this.$store.commit('increment')
 
                 // console.log(this.$store.state.count)
-                this.goodsAtCart = this.$store.state.cartGoods;
-                this.goodsCount = this.$store.getters.goodsCount;
+                // this.goodsAtCart = this.$store.state.cartGoods;
+                // this.goodsCount = this.$store.getters.goodsCount;
                 // this.goodsCount = this.$store.state.totalCount;
+
             }
         },
         created() {
@@ -291,6 +300,17 @@
 .thumb-list .responsive-image{
     width: 49px;
     height: 49px;
+}
+.fly-img{
+    width: 60px;
+    height: 60px;
+    position: absolute;
+    /* display: none; */
+}
+.fly-img.ani{
+    opacity: 0;
+    transform: rotate(1800deg) scale(.2);
+    transition: transform 1s,opacity 2s;
 }
 
 </style>

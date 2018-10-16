@@ -5,25 +5,25 @@
         <div class="head-top">
             <div class="section">
                 <div class="left-box">
-                    <span>黑马买买买</span>
+                    <span>Kangin's Shop</span>
                     <a target="_blank" href="#"></a>
                     <a target="_blank" href="#"></a>
                 </div>
                 <div id="menu" class="right-box">
-                    <span style="display: none;">
-                        <a href="" class="">登录</a>
+                    <span v-show="!$store.state.isLogin">
+                        <router-link to="/login">登录</router-link>
                         <strong>|</strong>
                         <a href="" class="">注册</a>
                         <strong>|</strong>
                     </span>
-                    <span>
+                    <span v-show="$store.state.isLogin">
                         <a href="" class="">会员中心</a>
                         <strong>|</strong>
-                        <a>退出</a>
+                        <a @click="logout">退出</a>
                         <strong>|</strong>
                     </span>
                     <router-link to="/cart">
-                        <i class="iconfont icon-cart"></i>购物车(
+                        <i class="iconfont icon-cart" ref="cart"></i>购物车(
                         <span id="shoppingCartCount">
                             <span>{{ $store.getters.goodsCount }}</span>
                             <!-- <span>{{ $store.state.totalCount }}</span> -->
@@ -56,7 +56,7 @@
                         </li>
                         <li class="video">
                             <router-link to="/video">
-                                <span class="out" style="top: 0px;">黑马超市</span>
+                                <span class="out" style="top: 0px;">特惠超市</span>
                             </router-link>
                         </li>
                         <li class="down">
@@ -65,7 +65,7 @@
                             </router-link>
                         </li>
                         <li class="goods">
-                            <router-link to="/goods" class="router-link-exact-active">
+                            <router-link to="/goods">
                                 <span class="out" style="top: 0px;">购物商城</span>
                             </router-link>
                         </li>
@@ -104,7 +104,7 @@
             </div>
             <div class="foot-box">
                 <div class="copyright">
-                    <p>版权所有 黑马买买买 </p>
+                    <p>版权所有 KimKangin </p>
                     <p>公司地址： 联系电话：</p>
                     <p class="gray">Copyright © 2009-2018 itcast Corporation,All Rights Reserved.</p>
                 </div>
@@ -142,11 +142,17 @@ export default {
 		$(".over",	this).stop().animate({'top': '-48px'},300); // move up - hide
 	});
   },
-//   methods: {
-//       addCount() {
-//           this.$store.commit('increment');
-//       }
-//   }
+  methods: {
+      logout() {
+          this.$axios.get('/site/account/logout').then(res=>{
+              if(res.data.status == 0){
+                  this.$Message.info('欢迎再次回来');
+                  this.$router.push('/login');
+                  this.$store.commit('loginStatus',false);
+              }
+          });
+      }
+  }
 }
 </script>
 
@@ -161,5 +167,18 @@ export default {
     color: #fff;
     text-align: center;
     border-radius: 2px;
+}
+.ivu-notice{
+    text-align: left;
+}
+.header .head-nav .search-box .input-box input{
+    height: 38px;
+    line-height: 38px;
+    outline: none;
+    border: 0;
+    font-size: 14px;
+}
+.header .head-top .left-box span{
+    font-size: 16px;
 }
 </style>
