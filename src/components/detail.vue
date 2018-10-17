@@ -305,7 +305,6 @@ import $ from 'jquery';
     width: 60px;
     height: 60px;
     position: absolute;
-    /* display: none; */
 }
 .fly-img.ani{
     opacity: 0;

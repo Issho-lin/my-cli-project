@@ -6,6 +6,7 @@ import detail from './components/detail.vue';
 import cart from './components/cart.vue';
 import order from './components/order.vue';
 import login from './components/login.vue';
+import pay from './components/pay.vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import iView from 'iview';
@@ -15,6 +16,10 @@ import VueLazyload from 'vue-lazyload';
 import moment from 'moment';
 import ProductZoomer from 'vue-product-zoomer';
 import Vuex from 'vuex';
+import VDistpicker from 'v-distpicker';
+import VueQriously from 'vue-qriously'
+
+Vue.component('v-distpicker', VDistpicker)
 
 Vue.prototype.$axios = axios;
 axios.defaults.baseURL = 'http://111.230.232.110:8899';
@@ -24,6 +29,7 @@ Vue.use(VueRouter);
 Vue.use(ElementUI);
 Vue.use(iView);
 Vue.use(ProductZoomer);
+Vue.use(VueQriously)
 
 Vue.use(VueLazyload, {
   error: require('./assets/imgs/loading.gif'),
@@ -46,11 +52,20 @@ const routes = [
     path: '/cart',
     component: cart
   },{
-    path: '/order',
-    component: order
+    path: '/order/:ids',
+    component: order,
+    meta: {
+      checkLogin: true
+    }
   },{
     path: '/login',
     component: login
+  },{
+    path: '/pay/:orderId',
+    component: pay,
+    meta: {
+      checkLogin: true
+    }
   }
 ];
 
@@ -59,7 +74,7 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  if(to.path == '/order'){
+  if(to.meta.checkLogin){
     axios.get('/site/account/islogin').then(res=>{
       if(res.data.code == 'nologin'){
         Vue.prototype.$Message.warning('请先登录填写订单！');

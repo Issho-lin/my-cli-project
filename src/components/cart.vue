@@ -98,7 +98,7 @@
                             <router-link to="/index">
                                 <button class="button">继续购物</button>
                             </router-link>
-                            <router-link to="/order">
+                            <router-link :to="`/order/${ids}`">
                                 <button class="submit">立即结算</button>
                             </router-link>
                         </div>
@@ -133,6 +133,17 @@
                         sum += v.buycount * v.sell_price;
                 });
                 return sum;
+            },
+            ids() {
+                let ids = '';
+                this.cartlist.forEach(v => {
+                    if (v.selected){
+                        ids += v.id;
+                        ids += ',';
+                    } 
+                });
+                ids = ids.slice(0,-1);
+                return ids;
             }
         },
         created() {
