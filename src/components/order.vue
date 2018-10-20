@@ -217,7 +217,6 @@
     </div>
 </template>
 <script>
-import $ from 'jquery';
     export default {
         name: 'order',
         data() {
@@ -314,6 +313,9 @@ import $ from 'jquery';
                 this.ruleForm.expressMoment = value;
             },
             submit() {
+                this.ruleForm.goodsids.split(',').forEach(v=>{
+                    this.$store.commit('delGoods',v)
+                });
                 this.$axios.post(`site/validate/order/setorder`,this.ruleForm).then(res=>{
                     console.log(res);
                     this.orderId = res.data.message.orderid;

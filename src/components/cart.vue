@@ -181,8 +181,9 @@
                     this.cartlist.forEach((v,index)=>{
                         if(v.id == id){
                             this.cartlist.splice(index,1);
-                            this.$store.state.cartGoods[id] = 0;
-                            delete this.$store.state.cartGoods[id];
+                            this.$store.commit('delGoods',id)
+                            // this.$store.state.cartGoods[id] = 0;
+                            // delete this.$store.state.cartGoods[id];
                         }
                     });
 

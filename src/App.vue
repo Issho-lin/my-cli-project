@@ -17,7 +17,7 @@
                         <strong>|</strong>
                     </span>
                     <span v-show="$store.state.isLogin">
-                        <a href="" class="">会员中心</a>
+                        <router-link to="/user">会员中心</router-link>
                         <strong>|</strong>
                         <a @click="logout">退出</a>
                         <strong>|</strong>
@@ -82,8 +82,9 @@
             </div>
         </div>
     </div>
-
-    <router-view></router-view>
+    <keep-alive include="index">
+        <router-view></router-view>    
+    </keep-alive>
 
     <div class="footer">
         <div class="section">
@@ -123,23 +124,23 @@
 </template>
 
 <script>
-import $ from 'jquery';
 export default {
   name: 'app',
   components: {
   },
   mounted() {
-    $("#menu2 li a").wrapInner( '<span class="out"></span>' );
-	$("#menu2 li a").each(function() {
-		$( '<span class="over">' +  $(this).text() + '</span>' ).appendTo( this );
+    let that = this;
+    that.$("#menu2 li a").wrapInner( '<span class="out"></span>' );
+	that.$("#menu2 li a").each(function() {
+		that.$( '<span class="over">' +  that.$(this).text() + '</span>' ).appendTo( this );
 	});
 
-	$("#menu2 li a").hover(function() {
-		$(".out",	this).stop().animate({'top': '48px'},300); // move down - hide
-		$(".over",	this).stop().animate({'top': '0px'},300); // move down - show
+	that.$("#menu2 li a").hover(function() {
+		that.$(".out",	this).stop().animate({'top': '48px'},300); // move down - hide
+		that.$(".over",	this).stop().animate({'top': '0px'},300); // move down - show
 	}, function() {
-		$(".out",	this).stop().animate({'top': '0px'},300); // move up - show
-		$(".over",	this).stop().animate({'top': '-48px'},300); // move up - hide
+		that.$(".out",	this).stop().animate({'top': '0px'},300); // move up - show
+		that.$(".over",	this).stop().animate({'top': '-48px'},300); // move up - hide
 	});
   },
   methods: {

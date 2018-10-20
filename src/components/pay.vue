@@ -70,7 +70,7 @@
                             </div>
                             <div class="el-col el-col-6">
                                 <div id="container2">
-                                    <qriously value="https://www.baidu.com" :size="200" />
+                                    <qriously :value="`http://111.230.232.110:8899/site/validate/pay/alipay/${payInfo.id}`" :size="200" />
                                 </div>
                             </div>
                         </div>
@@ -85,7 +85,8 @@ export default {
     name: 'pay',
     data() {
         return {
-            payInfo: {}
+            payInfo: {},
+            interId: ''
         }
     },
     created() {
@@ -93,6 +94,18 @@ export default {
             console.log(res);
             this.payInfo = res.data.message[0];
         });
+        this.interId = setInterval(()=>{
+            this.$axios.get(`site/validate/order/getorder/${this.$route.params.orderId}`).then(res=>{
+                if(res.data.message[0].status == 2){
+                    this.$Message.success('订单支付成功！');
+                    this.$router.push('/payed');
+                }
+            });
+
+        },1500);
+    },
+    destroyed() {
+        clearInterval(this.interId);
     },
 }
 </script>

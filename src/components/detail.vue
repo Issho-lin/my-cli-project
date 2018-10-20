@@ -148,7 +148,6 @@
     </div>
 </template>
 <script>
-import $ from 'jquery';
     export default {
         name: 'detail',
         data() {
@@ -251,9 +250,11 @@ import $ from 'jquery';
                 });
             },
             addCart() {
-                $(this.$refs.flyImg).stop().css($(this.$refs.add).offset()).show().addClass('ani').animate($(this.$parent.$refs.cart).offset(),1000,()=>{
-                    console.log(this);
-                    $(this.$refs.flyImg).removeClass('ani').hide();
+                // console.log(123);
+                // console.log(this.$(this.$refs.flyImg));
+                this.$(this.$refs.flyImg).stop().show().css(this.$(this.$refs.add).offset()).addClass('ani').animate(this.$(this.$parent.$refs.cart).offset(),1000,()=>{
+                    // console.log(this);
+                    this.$(this.$refs.flyImg).removeClass('ani').hide();
                     this.$store.commit('addGoods',{
                         id: this.id,
                         addNum: this.buyNum
